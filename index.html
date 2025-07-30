@@ -33,7 +33,7 @@
     <script>
         async function checkTunnel() {
             try {
-                const response = await fetch('https://corn-preferred-simultaneously-burden.trycloudflare.com', { mode: 'cors' });
+                const response = await fetch('https://array-video-excluded-inputs.trycloudflare.com', { mode: 'cors' });
                 const text = await response.text();
                 // Check for specific Cloudflare Tunnel errors in response body
                 if (text.includes('Error 1033') || text.includes('Cloudflare Tunnel Error')) {
@@ -42,7 +42,7 @@
                     return;
                 }
                 // If no error, redirect to the tunnel URL
-                window.location.href = 'https://corn-preferred-simultaneously-burden.trycloudflare.com';
+                window.location.href = 'https://array-video-excluded-inputs.trycloudflare.com';
             } catch (e) {
                 // Network errors or CORS issues indicate the site is unreachable
                 document.getElementById('error-message').style.display = 'block';
