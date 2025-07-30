@@ -27,33 +27,26 @@
     </style>
 </head>
 <body>
-    <div id="error-message" style="display: none;">
+    <div id="error-message" class="error-message" style="display: none;">
         Welp, looks like Beefcore is currently down... Check back soon!
     </div>
     <script>
         async function checkTunnel() {
             try {
-                const response = await fetch('https://intellectual-archive-ir-profits.trycloudflare.com', { method: 'HEAD', mode: 'cors' });
-                // Common Cloudflare Tunnel error codes
-                const errorCodes = [502, 503, 520, 521, 522, 523, 524, 525, 527];
-                if (errorCodes.includes(response.status)) {
-                    document.getElementById('error-message').style.display = 'block';
-                    console.error('Cloudflare Tunnel error detected: HTTP ' + response.status);
-                    return;
-                }
-                // Check response body for specific error messages
+                const response = await fetch('https://intellectual-archive-ir-profits.trycloudflare.com', { mode: 'cors' });
                 const text = await response.text();
-                if (text.includes('Failed to connect') || text.includes('Tunnel unavailable')) {
+                // Check for specific Cloudflare Tunnel errors in response body
+                if (text.includes('Error 1033') || text.includes('Cloudflare Tunnel Error')) {
                     document.getElementById('error-message').style.display = 'block';
-                    console.error('Cloudflare Tunnel error in response body');
+                    console.error('Cloudflare Tunnel error detected in response: ' + text.substring(0, 100));
                     return;
                 }
                 // If no error, redirect to the tunnel URL
                 window.location.href = 'https://intellectual-archive-ir-profits.trycloudflare.com';
             } catch (e) {
-                // Network errors or CORS issues indicate tunnel is likely down
+                // Network errors or CORS issues indicate the site is unreachable
                 document.getElementById('error-message').style.display = 'block';
-                console.error('Error fetching tunnel URL: ' + e.message);
+                console.error('Failed to reach tunnel URL: ' + e.message);
             }
         }
         // Run check when page loads
