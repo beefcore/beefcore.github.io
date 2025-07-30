@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beefcore Redirect</title>
+    <title>Beefcore</title>
+    <meta property="og:title" content="Beefcore" />
+    <meta property="og:description" content="somethin" />
+    <meta property="og:image" content="https://media.discordapp.net/attachments/1331009164951949332/1400245828236480584/steak.jpg?ex=688bf00c&is=688a9e8c&hm=cbf32cb94007dc0e5cdd90f31cabc0359d20da563b5faf8a00fae1fda42a5306&=&format=webp&width=1252&height=939" />
+    <meta property="og:url" content="https://beefcore.github.io" />
+    <meta name="theme-color" content="#ff4500" />
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -28,28 +33,24 @@
 </head>
 <body>
     <div id="error-message" class="error-message" style="display: none;">
-        Welp, looks like Beefcore is currently down... Check back soon! 🥩
+        Welp, looks like Beefcore is currently down... Check back soon!
     </div>
     <script>
         async function checkTunnel() {
             try {
                 const response = await fetch('https://array-video-excluded-inputs.trycloudflare.com', { mode: 'cors' });
                 const text = await response.text();
-                // Check for specific Cloudflare Tunnel errors in response body
                 if (text.includes('Error 1033') || text.includes('Cloudflare Tunnel Error')) {
                     document.getElementById('error-message').style.display = 'block';
-                    console.error('Cloudflare Tunnel error detected in response: ' + text.substring(0, 100));
+                    console.error('Cloudflare Tunnel error detected: ' + text.substring(0, 100));
                     return;
                 }
-                // If no error, redirect to the tunnel URL
                 window.location.href = 'https://array-video-excluded-inputs.trycloudflare.com';
             } catch (e) {
-                // Network errors or CORS issues indicate the site is unreachable
                 document.getElementById('error-message').style.display = 'block';
                 console.error('Failed to reach tunnel URL: ' + e.message);
             }
         }
-        // Run check when page loads
         window.onload = checkTunnel;
     </script>
 </body>
