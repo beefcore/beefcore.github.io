@@ -36,25 +36,18 @@
         Welp, looks like Beefcore is currently down... Check back soon! 🥩
     </div>
     <script>
-        async function checkTunnel() {
+        function checkTunnel() {
             const path = window.location.pathname || '';
-            const targetUrl = 'https://creativity-punch-general-potatoes.trycloudflare.com' + (path ? '/' + path.replace(/^\//, '') : '');
-            console.log('Attempting to fetch: ' + targetUrl);
-            try {
-                const response = await fetch(targetUrl, { mode: 'cors' });
-                const text = await response.text();
-                if (text.includes('Error 1033') || text.includes('Cloudflare Tunnel Error')) {
-                    document.getElementById('error-message').style.display = 'block';
-                    console.error('Cloudflare error detected: ' + text.substring(0, 100));
-                    return;
-                }
+            const baseUrl = 'https://creativity-punch-general-potatoes.trycloudflare.com';
+            const targetUrl = baseUrl.endsWith('/') ? baseUrl + path.replace(/^\//, '') : baseUrl + (path ? '/' + path.replace(/^\//, '') : '');
+            console.log('Base URL: ' + baseUrl);
+            console.log('Path: ' + path);
+            console.log('Target URL: ' + targetUrl);
+            if (baseUrl && !baseUrl.includes('undefined')) {
                 window.location.href = targetUrl;
-            } catch (e) {
+            } else {
                 document.getElementById('error-message').style.display = 'block';
-                console.error('Fetch failed: ' + e.message);
-                // Fallback redirect if fetch fails (e.g., CORS)
-                console.warn('Falling back to direct redirect: ' + targetUrl);
-                window.location.href = targetUrl;
+                console.error('Invalid tunnel URL: ' + baseUrl);
             }
         }
         window.onload = checkTunnel;
