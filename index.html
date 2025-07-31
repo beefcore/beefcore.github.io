@@ -37,20 +37,24 @@
     </div>
     <script>
         async function checkTunnel() {
-            const path = window.location.pathname;
-            const targetUrl = 'https://internship-mongolia-polymer-warner.trycloudflare.com' + path;
+            const path = window.location.pathname || '';
+            const targetUrl = 'https://creativity-punch-general-potatoes.trycloudflare.com' + (path ? '/' + path.replace(/^\//, '') : '');
+            console.log('Attempting to fetch: ' + targetUrl);
             try {
                 const response = await fetch(targetUrl, { mode: 'cors' });
                 const text = await response.text();
                 if (text.includes('Error 1033') || text.includes('Cloudflare Tunnel Error')) {
                     document.getElementById('error-message').style.display = 'block';
-                    console.error('Cloudflare Tunnel error detected: ' + text.substring(0, 100));
+                    console.error('Cloudflare error detected: ' + text.substring(0, 100));
                     return;
                 }
                 window.location.href = targetUrl;
             } catch (e) {
                 document.getElementById('error-message').style.display = 'block';
-                console.error('Failed to reach tunnel URL: ' + e.message);
+                console.error('Fetch failed: ' + e.message);
+                // Fallback redirect if fetch fails (e.g., CORS)
+                console.warn('Falling back to direct redirect: ' + targetUrl);
+                window.location.href = targetUrl;
             }
         }
         window.onload = checkTunnel;
