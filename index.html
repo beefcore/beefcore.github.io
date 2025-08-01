@@ -36,25 +36,22 @@
         Welp, looks like Beefcore is currently down... Check back soon! 🥩
     </div>
     <script>
-        async function checkServer() {
-            const path = window.location.pathname || '';
-            const targetUrl = 'http://guh-pc.local:3939' + (path ? '/' + path.replace(/^\//, '') : '');
-            console.log('Checking server: ' + targetUrl);
+        async function checkTunnel() {
             try {
-                const response = await fetch(targetUrl, { method: 'HEAD', mode: 'cors' });
-                if (response.ok) {
-                    console.log('Server is accessible, redirecting to: ' + targetUrl);
-                    window.location.href = targetUrl;
-                } else {
+                const response = await fetch('https://also-installing-lookup-designed.trycloudflare.com', { mode: 'cors' });
+                const text = await response.text();
+                if (text.includes('Error 1033') || text.includes('Cloudflare Tunnel Error')) {
                     document.getElementById('error-message').style.display = 'block';
-                    console.error('Server not accessible, status: ' + response.status);
+                    console.error('Cloudflare Tunnel error detected: ' + text.substring(0, 100));
+                    return;
                 }
+                window.location.href = 'https://also-installing-lookup-designed.trycloudflare.com';
             } catch (e) {
                 document.getElementById('error-message').style.display = 'block';
-                console.error('Failed to reach server: ' + e.message);
+                console.error('Failed to reach tunnel URL: ' + e.message);
             }
         }
-        window.onload = checkServer;
+        window.onload = checkTunnel;
     </script>
 </body>
 </html>
