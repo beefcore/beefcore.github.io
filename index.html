@@ -77,7 +77,7 @@
     <script>
         async function checkTunnel() {
             const path = window.location.pathname || '';
-            const targetUrl = 'https://beefcore.loca.lt' + (path ? '/' + path.replace(/^\//, '') : '');
+            const targetUrl = `https://beefcore.loca.lt${path}`;
             console.log('Checking server: ' + targetUrl);
             try {
                 const response = await fetch(targetUrl, { method: 'HEAD', mode: 'cors' });
@@ -93,7 +93,13 @@
                 console.error('Failed to reach server: ' + e.message);
             }
         }
-        window.onload = checkTunnel;
+
+        // Ensure redirect happens immediately with path preservation
+        window.onload = function() {
+            const path = window.location.pathname || '';
+            const redirectUrl = `https://beefcore.loca.lt${path}`;
+            window.location.href = redirectUrl; // Immediate redirect
+        };
     </script>
 </body>
 </html>
