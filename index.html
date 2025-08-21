@@ -28,16 +28,15 @@
       name="twitter:image"
       content="https://raw.githubusercontent.com/MinimackStudios/image-hosting/refs/heads/main/misc/steak.jpg"
     />
-    <meta http-equiv="refresh" content="0; url=https://beefcore.loca.lt" />
     <style>
       body {
-        display: none; /* Ensure body is hidden until needed */
         margin: 0;
         font-family: Arial, sans-serif;
         align-items: center;
         background-color: #f0f0f0;
         justify-content: center;
         height: 100vh;
+        display: flex; /* Default to visible, hidden by script if redirect succeeds */
       }
       .message-box {
         padding: 15px 25px;
@@ -79,53 +78,55 @@
     </div>
 
     <script>
-      // Attempt immediate redirect
+      // Attempt immediate redirect with 503 check
       const redirectUrl = "https://beefcore.loca.lt";
-      const timeoutMs = 300; // Short timeout to detect failure
+      const timeoutMs = 500; // Increased timeout for reliability
 
-      // Function to check navigation and detect "503 - Tunnel Unavailable"
-      function attemptRedirect() {
+      // Function to check 503 - Tunnel Unavailable
+      function checkAndRedirect() {
         let redirectTimer = setTimeout(() => {
-          // If still on this page after timeout, show error page
-          document.getElementById("errorPage").style.display = "flex";
+          console.log("Timeout reached, showing error page");
+          // If no response within timeout, keep error page visible
         }, timeoutMs);
 
-        // Perform a quick GET request to check the response body
+        const controller = new AbortController();
+        const signal = controller.signal;
+
         fetch(redirectUrl, {
           method: "GET",
           mode: "cors",
           cache: "no-cache",
+          signal: signal,
           redirect: "manual",
         })
           .then((response) => {
             if (!response.ok) {
               return response.text().then((text) => {
+                clearTimeout(redirectTimer);
                 if (text.includes("503 - Tunnel Unavailable")) {
-                  clearTimeout(redirectTimer);
-                  document.getElementById("errorPage").style.display = "flex";
+                  console.log("Detected 503 - Tunnel Unavailable");
+                  // Keep error page visible
                 } else {
                   window.location.href = redirectUrl;
                 }
               });
             } else {
+              clearTimeout(redirectTimer);
               window.location.href = redirectUrl;
             }
           })
           .catch((error) => {
-            // Network error or CORS issue, proceed with redirect or show error
+            console.log("Fetch error:", error);
             clearTimeout(redirectTimer);
-            document.getElementById("errorPage").style.display = "flex";
+            // Keep error page visible on error
           });
 
-        // Try to navigate immediately as a fallback
-        window.location.href = redirectUrl;
-
-        // Clear timer if navigation succeeds (page unloads)
-        window.onunload = () => clearTimeout(redirectTimer);
+        // Abort fetch if timeout is reached
+        redirectTimer = setTimeout(() => controller.abort(), timeoutMs);
       }
 
       // Run immediately
-      attemptRedirect();
+      checkAndRedirect();
     </script>
   </body>
 </html>
