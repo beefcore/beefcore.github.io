@@ -3,69 +3,101 @@
   <head>
     <title>Beefcore</title>
   </head>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Open Graph tags for Discord embed -->
-  <meta property="og:title" content="Beefcore">
-  <meta property="og:description" content="somethin">
-  <meta property="og:image" content="https://raw.githubusercontent.com/MinimackStudios/image-hosting/refs/heads/main/misc/steak.jpg">
-  <meta property="og:image:width" content="300">
-  <meta property="og:image:height" content="200">
-  <meta property="og:url" content="https://beefcore.github.io">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Minimack Studios">
-  <!-- Theme color for Discord embed accent -->
-  <meta name="theme-color" content="#ff0033">
-  <!-- Twitter Card tags for broader compatibility -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Beefcore">
-  <meta name="twitter:description" content="somethin">
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/MinimackStudios/image-hosting/refs/heads/main/misc/steak.jpg">
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #f0f0f0;
-      font-family: Arial, sans-serif;
-    }
-    .message-box {
-      padding: 15px 25px;
-      border: 2px solid #ff0000;
-      border-radius: 10px;
-      background-color: #ffffff;
-      color: #ff0000;
-      font-size: 22px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .main-message {
-      margin-bottom: 10px;
-    }
-    .sub-message {
-      font-size: 14px;
-      color: #a60000;
-      font-weight: bold;
-      text-align: center;
-    }
-    .emoji {
-      margin-left: 15px;
-    }
-  </style>
-</head>
-<body>
-  <div class="message-box">
-    <div class="main-message">
-      Welp, looks like Beefcore is currently down... Check back soon! 
-      <span class="emoji">🥩</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Open Graph tags for Discord embed -->
+    <meta property="og:title" content="Beefcore" />
+    <meta property="og:description" content="somethin" />
+    <meta
+      property="og:image"
+      content="https://raw.githubusercontent.com/MinimackStudios/image-hosting/refs/heads/main/misc/steak.jpg"
+    />
+    <meta property="og:image:width" content="300" />
+    <meta property="og:image:height" content="200" />
+    <meta property="og:url" content="https://beefcore.github.io" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Minimack Studios" />
+    <!-- Theme color for Discord embed accent -->
+    <meta name="theme-color" content="#ff0033" />
+    <!-- Twitter Card tags for broader compatibility -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Beefcore" />
+    <meta name="twitter:description" content="somethin" />
+    <meta
+      name="twitter:image"
+      content="https://raw.githubusercontent.com/MinimackStudios/image-hosting/refs/heads/main/misc/steak.jpg"
+    />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+        font-family: Arial, sans-serif;
+      }
+      .message-box {
+        padding: 15px 25px;
+        border: 2px solid #ff0000;
+        border-radius: 10px;
+        background-color: #ffffff;
+        color: #ff0000;
+        font-size: 22px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .main-message {
+        margin-bottom: 10px;
+      }
+      .sub-message {
+        font-size: 14px;
+        color: #a60000;
+        font-weight: bold;
+        text-align: center;
+      }
+      .emoji {
+        margin-left: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="message-box">
+      <div class="main-message">
+        Welp, looks like Beefcore is currently down... Check back soon!
+        <span class="emoji">🥩</span>
+      </div>
+      <div class="sub-message">
+        Would you still like to continue to
+        <a href="https://beefcore.loca.lt" style="color: #c20202"
+          >https://beefcore.loca.lt</a
+        >? Chances are you'll be unable to reach the website.
+      </div>
     </div>
-    <div class="sub-message">
-      Would you still like to continue to <a href="https://beefcore.loca.lt" style="color: #c20202;">https://beefcore.loca.lt</a>? Chances are you'll be unable to reach the website.
-    </div>
-  </div>
-</body>
+    <script>
+      // Function to check if beefcore.loca.lt is up
+      function checkWebsiteStatus() {
+        fetch("https://beefcore.loca.lt", {
+          method: "HEAD", // HEAD request is lighter than GET
+          mode: "cors", // Enable CORS
+          cache: "no-cache",
+        })
+          .then((response) => {
+            if (response.status === 200) {
+              // If the site is up, redirect
+              window.location.href = "https://beefcore.loca.lt";
+            }
+          })
+          .catch((error) => {
+            // Handle any errors (e.g., network issues), but don't redirect
+            console.log("Error checking website status:", error);
+          });
+      }
+
+      // Run the check when the page loads
+      window.onload = checkWebsiteStatus;
+    </script>
+  </body>
 </html>
