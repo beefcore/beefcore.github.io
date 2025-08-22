@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Beefcore</title>
-  </head>
-  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Open Graph tags for Discord embed -->
@@ -36,7 +33,7 @@
         background-color: #f0f0f0;
         justify-content: center;
         height: 100vh;
-        display: flex; /* Default to visible, hidden by script if redirect succeeds */
+        display: none; /* Hidden by default, shown if redirect fails */
       }
       .message-box {
         padding: 15px 25px;
@@ -78,54 +75,24 @@
     </div>
 
     <script>
-      // Attempt immediate redirect with 503 check
+      // Attempt immediate redirect with timeout fallback
       const redirectUrl = "https://beefcore.loca.lt";
-      const timeoutMs = 500; // Increased timeout for reliability
+      const timeoutMs = 1000; // Give it a full second to work
 
-      // Function to check 503 - Tunnel Unavailable
       function checkAndRedirect() {
         let redirectTimer = setTimeout(() => {
-          console.log("Timeout reached, showing error page");
-          // If no response within timeout, keep error page visible
+          console.log("Redirect didn’t happen, showing error page");
+          document.getElementById("errorPage").style.display = "flex";
         }, timeoutMs);
 
-        const controller = new AbortController();
-        const signal = controller.signal;
+        // Try the redirect right away
+        window.location.href = redirectUrl + "?t=" + Date.now(); // Fresh check each time
 
-        fetch(redirectUrl, {
-          method: "GET",
-          mode: "cors",
-          cache: "no-cache",
-          signal: signal,
-          redirect: "manual",
-        })
-          .then((response) => {
-            if (!response.ok) {
-              return response.text().then((text) => {
-                clearTimeout(redirectTimer);
-                if (text.includes("503 - Tunnel Unavailable")) {
-                  console.log("Detected 503 - Tunnel Unavailable");
-                  // Keep error page visible
-                } else {
-                  window.location.href = redirectUrl;
-                }
-              });
-            } else {
-              clearTimeout(redirectTimer);
-              window.location.href = redirectUrl;
-            }
-          })
-          .catch((error) => {
-            console.log("Fetch error:", error);
-            clearTimeout(redirectTimer);
-            // Keep error page visible on error
-          });
-
-        // Abort fetch if timeout is reached
-        redirectTimer = setTimeout(() => controller.abort(), timeoutMs);
+        // Clear timer if we leave the page
+        window.onunload = () => clearTimeout(redirectTimer);
       }
 
-      // Run immediately
+      // Kick it off
       checkAndRedirect();
     </script>
   </body>
