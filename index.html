@@ -33,7 +33,7 @@
         background-color: #f0f0f0;
         justify-content: center;
         height: 100vh;
-        display: none; /* Hidden by default, shown if redirect fails */
+        display: none; /* Hidden by default, shown if redirect fails or times out */
       }
       .message-box {
         padding: 15px 25px;
@@ -75,24 +75,28 @@
     </div>
 
     <script>
-      // Attempt immediate redirect with timeout fallback
+      // Attempt immediate redirect with 3-second timeout
       const redirectUrl = "https://beefcore.loca.lt";
-      const timeoutMs = 500; // Give it a full second to work
+      const timeoutMs = 3000; // 3-second limit
 
       function checkAndRedirect() {
         let redirectTimer = setTimeout(() => {
-          console.log("Redirect didn’t happen, showing error page");
+          console.log("Redirect took too long (over 3s), showing error page");
           document.getElementById("errorPage").style.display = "flex";
+          // Stop redirect by reloading this page if still attempting
+          if (window.location.href.startsWith(redirectUrl)) {
+            window.location.href = "https://beefcore.github.io";
+          }
         }, timeoutMs);
 
-        // Try the redirect right away
-        window.location.href = redirectUrl + "?t=" + Date.now(); // Fresh check each time
+        // Attempt immediate redirect with cache bust
+        window.location.href = redirectUrl + "?t=" + Date.now();
 
-        // Clear timer if we leave the page
+        // Clear timer if navigation succeeds (page unloads)
         window.onunload = () => clearTimeout(redirectTimer);
       }
 
-      // Kick it off
+      // Run immediately
       checkAndRedirect();
     </script>
   </body>
