@@ -65,7 +65,7 @@
         display: flex;
         align-items: center;
         transform: scale(2);
-        transform: translateY(80%); /* Increased offset to avoid overlap */
+        transform: translateY(105%); /* Increased offset to avoid overlap */
         animation: moveUp 1.5s ease forwards 1.5s; /* Move up after 1.5-second delay */
       }
       .fadeIn {
@@ -127,7 +127,7 @@
       }
       @keyframes moveUp {
         0% {
-          transform: translateY(80%);
+          transform: translateY(105%);
         }
         100% {
           transform: translateY(0);
@@ -148,6 +148,14 @@
       <div class="sub-message fadeIn">
         If you aren't redirected within the next few seconds, that's likely
         because Beefcore is down or unreachable.
+        <br />You may also need the Tunnel Password to access it. Get the
+        password here:
+        <a
+          href="https://beefcore.github.io/password"
+          target="_blank"
+          style="color: #ff0000"
+          >https://beefcore.github.io/password</a
+        >
         <br />
         If you are sure that it's definitely up, click this link:
         <a href="https://beefcore.loca.lt" style="color: #ff0000"

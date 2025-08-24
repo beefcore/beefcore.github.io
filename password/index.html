@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tunnel Password</title>
+</head>
+<body>
+    <div>
+      <span id="ip">190.2.148.237</span>
+      <button onclick="copyIP()">Copy IP</button>
+      <br> 
+      <small style="color: gray; font-style: italic;">
+        Note: The IP may change periodically. Please check this page for the latest password if you encounter issues.
+      </small>
+      <br>
+      <br />Copy the IP, then head to 
+      <a href="https://beefcore.loca.lt" target="_blank" rel="noopener noreferrer">https://beefcore.loca.lt</a> and enter the password when prompted.
+    </div>
+    <script>
+        function copyIP() {
+            const ipText = document.getElementById('ip').textContent;
+            navigator.clipboard.writeText(ipText)
+                .then(() => alert('IP copied to clipboard!'))
+                .catch(err => alert('Failed to copy IP: ', err));
+        }
+    </script>
+
+  <body>
+</html>
