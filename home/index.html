@@ -3,34 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gang Beasts Version Archive Megapack - Download</title>
-    <!-- Open Graph tags for Discord embed -->
-    <meta property="og:title" content="Gang Beasts Version Archive Megapack" />
+    <title>Beefcore - Home</title>
+    <!-- Open Graph tags for nicer embeds -->
+    <meta property="og:title" content="Beefcore" />
     <meta
       property="og:description"
-      content="A megapack I made containing nearly every version of Gang Beasts ever released"
+      content="The homepage for the Beefcore Redirect"
     />
     <meta
       property="og:image"
-      content="https://beefcore.github.io/GBVAM/gb.png"
+      content="https://beefcore.github.io/home/steak.png"
     />
-    <meta property="og:image:width" content="300" />
-    <meta property="og:image:height" content="300" />
-    <meta property="og:url" content="https://beefcore.github.io/GBVAM" />
+    <meta property="og:url" content="https://beefcore.github.io/home" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Beefcore" />
-    <!-- Theme color for Discord embed accent -->
-    <meta name="theme-color" content="#ff91af" />
-    <!-- Twitter Card tags for broader compatibility -->
+    <meta name="theme-color" content="#ff0000" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Gang Beasts Version Archive Megapack" />
+    <meta name="twitter:title" content="Beefcore" />
     <meta
       name="twitter:description"
-      content="A megapack I made containing nearly every version of Gang Beasts ever released"
+      content="The homepage for the Beefcore Redirect"
     />
     <meta
       name="twitter:image"
-      content="https://beefcore.github.io/GBVAM/gb.png"
+      content="https://beefcore.github.io/home/steak.png"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -55,10 +50,21 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-start; /* align to top so content sits higher */
+        justify-content: flex-start;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        overflow-y: hidden; /* prevent vertical scrolling */
+        /* allow scrolling but hide the scrollbar visually */
+        overflow-y: auto;
+        scrollbar-width: none; /* firefox */
+      }
+      body::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* color variables for buttons — change these to update the button gradient */
+      :root {
+        --btn-start: #ff0000;
+        --btn-end: #ff6666;
       }
 
       /* Rounded, floating popout header */
@@ -69,8 +75,8 @@
         backdrop-filter: blur(6px);
         border-radius: 14px;
         max-width: 920px;
-        margin: 12px auto 8px auto;
-        animation: slideDown 0.38s cubic-bezier(0.2, 0.9, 0.3, 1);
+  margin: 8px auto 6px auto;
+  animation: slideDown 1.38s cubic-bezier(0.2, 0.9, 0.3, 1);
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -81,7 +87,6 @@
         border: 2px solid #ff0000;
       }
 
-      /* subtle floating to sell the popout */
       header:hover {
         transform: translateY(-3px);
         transition: transform 0.18s ease;
@@ -94,8 +99,6 @@
         font-weight: 700;
         letter-spacing: 0.6px;
       }
-
-      /* Header links styling to remove default underlines and match brand */
       header a {
         color: inherit;
         text-decoration: none;
@@ -107,63 +110,34 @@
         font-weight: 600;
         transition: color 0.22s, transform 0.22s;
       }
-
       nav a:hover {
         color: #cc0000;
         transform: translateY(-2px);
       }
 
-      header {
-        padding: 12px 16px;
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-        background: rgba(255, 255, 255, 0.42);
-        backdrop-filter: blur(6px);
-        border-radius: 14px;
-        max-width: 920px;
-        margin: 8px auto 6px auto; /* move header up */
-        animation: slideDown 0.38s cubic-bezier(0.2, 0.9, 0.3, 1);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 18px;
-        position: relative;
-        z-index: 10;
-        transition: transform 0.16s ease;
-      }
       main {
         flex: 0 0 auto;
         width: 100%;
         max-width: 820px;
-        margin: 6px auto;
-        padding: 18px;
-        background: linear-gradient(
-          180deg,
-          rgba(255, 230, 230, 0.95),
-          rgba(255, 240, 240, 0.95)
-        );
+        margin: 28px auto 8px auto;
+        padding: 16px 18px;
+        background: linear-gradient(180deg, #ffe6e6, #fff0f0);
         border-radius: 12px;
-        border: 1px solid rgba(255, 0, 0, 0.14); /* subtle red outline */
+        border: 2px solid #ff0000;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
         text-align: center;
-        animation: fadeInUp 0.6s cubic-bezier(0.2, 0.9, 0.3, 1) 0.08s both;
+        animation: fadeInUp 0.55s cubic-bezier(0.2, 0.9, 0.3, 1) both;
       }
 
-      .game-image {
-        width: 100%;
-        max-width: 300px;
-        height: auto;
+      /* hero emoji (steak) */
+      .hero-emoji {
+        font-size: 6.2rem;
         display: block;
-        margin: 0 auto 20px;
-        border-radius: 10px;
-        animation: zoomIn 0.45s ease-in 0.18s both;
-        transition: transform 0.22s;
+        margin: 0 auto 8px;
+        line-height: 1;
+        animation: zoomIn 0.45s ease-in both, pulse 1.6s ease-in-out 1s infinite alternate;
+        cursor: pointer;
       }
-
-      .game-image:hover {
-        transform: scale(1.06);
-      }
-
-      /* Title and description typography tweaks */
       h1 {
         font-family: "Poppins", "Inter", Arial, sans-serif;
         color: #ff0000;
@@ -172,14 +146,6 @@
         font-weight: 700;
         line-height: 1.1;
       }
-      .main-message,
-      .gradient-text {
-        font-family: "Poppins", "Inter", Arial, sans-serif;
-        font-weight: 600;
-      }
-      /* Additional styles can go here */
-      /* Other styles can follow */
-
       .description {
         font-family: "Inter", Arial, sans-serif;
         font-weight: 500;
@@ -189,27 +155,15 @@
         color: #333;
       }
 
-      main {
-        flex: 0 0 auto;
-        width: 100%;
-        max-width: 820px;
-        margin: 28px auto 8px auto; /* move main down a bit */
-        padding: 16px 18px;
-        background: linear-gradient(
-          180deg,
-          #ffe6e6,
-          #fff0f0
-        ); /* subtle requested gradient */
-        border-radius: 12px;
-        border: 2px solid #ff0000; /* solid red outline like main index.html */
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-        text-align: center;
-        animation: fadeInUp 0.55s cubic-bezier(0.2, 0.9, 0.3, 1) 0.08s both;
-        border: 2px solid #ff0000;
-      }
-      /* Buttons share style and faster, snappier animation */
       .install-btn,
-      .faq-btn {
+      .faq-btn,
+      .faq2-btn,
+      .faq3-btn,
+      .faq4-btn,
+      .faq5-btn,
+      .faq6-btn,
+      .faq7-btn,
+      .card {
         display: inline-block;
         padding: 12px 26px;
         margin: 8px;
@@ -222,30 +176,70 @@
         box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
         animation: bounceIn 0.55s cubic-bezier(0.2, 0.9, 0.3, 1) both;
       }
-
-      .install-btn {
-        background: linear-gradient(90deg, #ff0000, #ff6666);
-      }
-      /* make FAQ the same color as Installation */
+      /* unified button color using CSS variables; change --btn-start/--btn-end to update */
+      .install-btn,
+      .faq2-btn,
+      .faq3-btn,
+      .faq4-btn,
+      .faq5-btn,
+      .faq6-btn,
+      .faq7-btn,
       .faq-btn {
-        background: linear-gradient(90deg, #ff0000, #ff6666);
+        background: linear-gradient(90deg, var(--btn-start), var(--btn-end));
       }
-
+      .card {
+        background: linear-gradient(90deg, var(--btn-start), var(--btn-end));
+        color: #fff;
+        padding: 12px 18px;
+        min-width: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
       .install-btn:hover,
       .faq-btn:hover {
         transform: translateY(-3px);
         box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
       }
 
-      /* stagger button entrance */
-      .install-btn {
-        animation-delay: 0.28s;
-      }
-      .faq-btn {
-        animation-delay: 0.42s;
-      }
+      /* stagger entrance for interactive elements */
+      .install-btn { animation-delay: 0.18s; }
+      .faq-btn { animation-delay: 0.34s; }
+      .faq2-btn { animation-delay: 0.50s; }
+      .faq3-btn { animation-delay: 0.66s; }
+      .faq4-btn { animation-delay: 0.82s; }
+      .faq5-btn { animation-delay: 0.98s; }
+      .faq6-btn { animation-delay: 1.14s; }
+      .faq7-btn { animation-delay: 1.30s; }
+      .cards .card:nth-child(1) { animation-delay: 0.66s; }
+      .cards .card:nth-child(2) { animation-delay: 0.82s; }
+      .cards .card:nth-child(3) { animation-delay: 0.98s; }
 
-      /* footer removed per request */
+      /* link cards */
+      .cards {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 18px;
+        flex-wrap: wrap;
+      }
+      .card {
+        border-radius: 10px;
+        padding: 10px 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(0, 0, 0, 0.04);
+        min-width: 160px;
+        background: linear-gradient(90deg, var(--btn-start), var(--btn-end));
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .card a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+      }
 
       @keyframes fadeIn {
         from {
@@ -255,7 +249,6 @@
           opacity: 1;
         }
       }
-
       @keyframes fadeInUp {
         0% {
           opacity: 0;
@@ -270,7 +263,6 @@
           transform: translateY(0);
         }
       }
-
       @keyframes zoomIn {
         from {
           opacity: 0;
@@ -281,18 +273,6 @@
           transform: scale(1);
         }
       }
-
-      @keyframes slideDown {
-        from {
-          opacity: 0;
-          transform: translateY(-12px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
       @keyframes bounceIn {
         0% {
           opacity: 0;
@@ -310,14 +290,31 @@
           transform: translateY(0) scale(1);
         }
       }
+
+      @keyframes pulse {
+        from { transform: scale(1); opacity: 1 }
+        to { transform: scale(1.06); opacity: 0.92 }
+      }
+
+      @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-12px) }
+        to { opacity: 1; transform: translateY(0) }
+      }
+
+      @media (max-width: 520px) {
+        h1 {
+          font-size: 1.4rem;
+        }
+        .description {
+          font-size: 0.98rem;
+        }
+      }
     </style>
   </head>
   <body>
     <header>
       <div class="logo">
-        <a href="/" style="color: inherit; text-decoration: none"
-          >Beefcore Redirect</a
-        >
+        <a href="/" style="color: inherit; text-decoration: none">Beefcore Redirect</a>
       </div>
       <nav>
         <a href="/home">Home</a>
@@ -325,29 +322,29 @@
         <a href="https://beefcore.loca.lt">Main Site</a>
       </nav>
     </header>
+
     <main>
-      <img
-        src="gb.png"
-        alt="Gang Beasts Version Archive Megapack"
-        class="game-image"
-      />
-      <h1>Gang Beasts Version Archive Megapack</h1>
+      <div id="heroEmoji" class="hero-emoji" role="link" aria-label="Steak link">🥩</div>
+      <h1>Welcome</h1>
       <p class="description">
-        A comprehensive megapack containing nearly every version of Gang Beasts
-        ever released. I do not own any of the content provided in this pack.
-        Click the following buttons below for more information.
+        Hi. This is the homepage for the Beefcore Redirect. Click
+        <a href="https://beefcore.loca.lt">here</a> for the main redirect page.
+        <div>Here are some quick links:</div>
       </p>
-      <a
-        href="https://beefcore.loca.lt/shr/GBVAM/%21How_to_install_versions.md?v"
-        class="install-btn"
-        >Installation</a
-      >
-      <a
-        href="https://beefcore.loca.lt/shr/GBVAM/%EF%BC%82FAQ%EF%BC%82.md?v"
-        class="faq-btn"
-        >FAQ</a
-      >
+      <a class="install-btn" href="/GBVAM">💾 Gang Beasts Archive</a>
+      <a class="faq-btn" href="/uploads">📂 Uploads</a>
+      <a class="faq2-btn" href="/memes">🗿 Memes</a>
+      <a class="faq3-btn" href="/GBOST">🎵 Gang Beasts OST</a>
+      <a class="faq4-btn" href="/SMGOST">🎵 SMG OST</a>
+      <a class="faq5-btn" href="/SMG2OST">🎵 SMG2 OST</a>
+      <a class="faq6-btn" href="/Windows">🪟 Windows ISOs</a>
+      </div>
     </main>
-    <!-- footer intentionally removed -->
+    <script>
+      // Redirect when steak emoji is clicked
+      document.getElementById('heroEmoji').addEventListener('click', function () {
+        window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+      });
+    </script>
   </body>
 </html>
