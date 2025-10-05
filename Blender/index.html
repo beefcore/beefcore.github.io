@@ -6,7 +6,7 @@
     <title>Beefcore Redirect</title>
     <!-- Open Graph tags for Discord embed -->
     <meta property="og:title" content="Blender" />
-    <meta property="og:description" content="Things I've made in Blender" />
+    <meta property="og:description" content="Things I've made with Blender" />
     <meta
       property="og:image"
       content="https://beefcore.github.io/Blender/Blender.png"
@@ -17,19 +17,25 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Beefcore" />
     <!-- Theme color for Discord embed accent -->
-    <meta name="theme-color" content="#e87d0d" />
+    <meta name="theme-color" content="#ff91af" />
     <!-- Twitter Card tags for broader compatibility -->
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Blender" />
-    <meta name="twitter:description" content="Things I've made in Blender" />
+    <meta name="twitter:description" content="Things I've made with Blender" />
     <meta
       name="twitter:image"
       content="https://beefcore.github.io/Blender/Blender.png"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
       body {
         margin: 0;
-        font-family: Arial, sans-serif;
+        font-family: "Inter", Arial, sans-serif;
         align-items: center;
         background-color: #f0f0f0;
         justify-content: center;
@@ -102,6 +108,11 @@
         background-clip: text;
         -webkit-text-fill-color: transparent;
         animation: gradientMove 2s linear infinite;
+      }
+      .main-message,
+      .gradient-text {
+        font-family: "Poppins", "Inter", Arial, sans-serif;
+        font-weight: 600;
       }
       @keyframes gradientMove {
         0% {

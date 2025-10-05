@@ -4,27 +4,312 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tunnel Password</title>
-</head>
-<body>
-    <div>
-      <span id="ip">89.187.177.75</span>
-      <button onclick="copyIP()">Copy IP</button>
-      <br> 
-      <small style="color: gray; font-style: italic;">
-        Note: The IP may change periodically. Please check this page for the latest password if you encounter issues.
-      </small>
-      <br>
-      <br />Copy the IP, then head to 
-      <a href="https://beefcore.loca.lt" target="_blank" rel="noopener noreferrer">https://beefcore.loca.lt</a> and enter the password when prompted.
-    </div>
-    <script>
-        function copyIP() {
-            const ipText = document.getElementById('ip').textContent;
-            navigator.clipboard.writeText(ipText)
-                .then(() => alert('IP copied to clipboard!'))
-                .catch(err => alert('Failed to copy IP: ', err));
-        }
-    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        padding: 10px 12px;
+        font-family: "Inter", Arial, sans-serif;
+        background: linear-gradient(to bottom, #ffcccc, #ffe6e6);
+        color: #222;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        -webkit-font-smoothing: antialiased;
+        overflow-y: hidden; /* prevent vertical scrolling */
+      }
+      /* Rounded, floating popout header (copied from GBVAM) */
+      header {
+        padding: 12px 16px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        background: rgba(255, 255, 255, 0.42);
+        backdrop-filter: blur(6px);
+        border-radius: 14px;
+        max-width: 920px;
+        margin: 8px auto 6px auto; /* move header up */
+        /* animation removed so header doesn't slide in */
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        position: relative;
+        z-index: 10;
+        transition: transform 0.16s ease;
+        border: 2px solid #ff0000;
+      }
 
+      /* subtle floating to sell the popout */
+      header:hover {
+        transform: translateY(-3px);
+        transition: transform 0.18s ease;
+      }
+
+      .logo {
+        font-family: "Poppins", "Inter", Arial, sans-serif;
+        font-size: 1.45rem;
+        color: #ff0000;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+      }
+
+      /* Header links styling to remove default underlines and match brand */
+      header a {
+        color: inherit;
+        text-decoration: none;
+      }
+      nav a {
+        margin: 0 12px;
+        text-decoration: none;
+        color: #ff0000;
+        font-weight: 600;
+        transition: color 0.22s, transform 0.22s;
+      }
+
+      nav a:hover {
+        color: #cc0000;
+        transform: translateY(-2px);
+      }
+
+      .center-wrap {
+        flex: 1 1 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+
+      main {
+        width: 100%;
+        max-width: 820px;
+        margin: 0 auto; /* centered by wrapper */
+        padding: 18px;
+        background: linear-gradient(180deg, #ffe6e6, #fff0f0);
+        border-radius: 12px;
+        border: 2px solid #ff0000;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+        text-align: center;
+        /* nudge the card up towards the header while remaining centered horizontally */
+        transform: translateY(-8vh);
+      }
+      h1 {
+        font-family: "Poppins", Arial, sans-serif;
+        color: #ff0000;
+        margin: 4px 0 0px 0;
+        font-size: 1.4rem;
+      }
+      .ip-box {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: #111;
+        background: #fff;
+        display: inline-block;
+        padding: 10px 14px;
+        border-radius: 8px;
+        margin: 12px 0;
+      }
+      .copy-btn {
+        display: inline-block;
+        margin-left: 10px;
+        padding: 10px 14px;
+        border-radius: 8px;
+        background: linear-gradient(90deg, #ff0000, #ff6666);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+      }
+      .copy-btn:hover {
+        transform: translateY(-2px);
+      }
+      .note {
+        color: #666;
+        font-size: 0.9rem;
+        margin-top: 8px;
+      }
+      /* link removed — copy-button will redirect after copying */
+
+      /* small toast */
+      .toast {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 18px;
+        background: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 8px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 200ms ease;
+      }
+      .toast.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeInUp {
+        0% {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        60% {
+          opacity: 1;
+          transform: translateY(-4px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes zoomIn {
+        from {
+          opacity: 0;
+          transform: scale(0.94);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes bounceIn {
+        0% {
+          opacity: 0;
+          transform: translateY(8px) scale(0.96);
+        }
+        50% {
+          opacity: 1;
+          transform: translateY(-6px) scale(1.04);
+        }
+        75% {
+          transform: translateY(2px) scale(0.995);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @media (max-height: 720px) {
+        main {
+          margin-top: 12px;
+          padding: 12px;
+        }
+        .ip-box {
+          font-size: 1.2rem;
+        }
+      }
+    </style>
+  </head>
   <body>
+    <header>
+      <div class="logo">
+        <a
+          href="https://beefcore.github.io"
+          style="color: inherit; text-decoration: none"
+          >Beefcore</a
+        >
+      </div>
+      <nav>
+        <a href="https://beefcore.github.io/home">Home</a>
+        <a href="https://beefcore.github.io/password">Password</a>
+        <a href="https://beefcore.loca.lt">Main Site</a>
+      </nav>
+    </header>
+
+    <div class="center-wrap">
+      <main>
+        <h1>Tunnel IP</h1>
+        <div>
+          <span id="ip" class="ip-box">89.187.177.75</span>
+          <button id="copyBtn" class="copy-btn" aria-label="Copy IP">
+            Copy
+          </button>
+        </div>
+        <div class="note">
+          The IP may change periodically. If you encounter issues, please check
+          back here for the latest IP.
+        </div>
+      </main>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite">
+      IP copied to clipboard
+    </div>
+
+    <script>
+      const copyBtn = document.getElementById("copyBtn");
+      const ipEl = document.getElementById("ip");
+      const toast = document.getElementById("toast");
+
+      async function showToast(text) {
+        toast.textContent = text;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1800);
+      }
+
+      copyBtn.addEventListener("click", async () => {
+        const ip = ipEl.textContent.trim();
+        try {
+          await navigator.clipboard.writeText(ip);
+          // On success, show toast then redirect after a short delay
+          showToast("IP copied — redirecting...");
+          setTimeout(() => {
+            window.location.href = "https://beefcore.loca.lt";
+          }, 900);
+        } catch (e) {
+          // If clipboard API fails, try an execCommand fallback but do NOT redirect on failure
+          const range = document.createRange();
+          range.selectNodeContents(ipEl);
+          const sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+          try {
+            document.execCommand("copy");
+            sel.removeAllRanges();
+            showToast("IP copied — redirecting...");
+            setTimeout(() => {
+              window.location.href = "https://beefcore.loca.lt";
+            }, 900);
+          } catch (err) {
+            sel.removeAllRanges();
+            showToast("Copy failed — please copy manually");
+          }
+        }
+      });
+    </script>
+  </body>
 </html>
