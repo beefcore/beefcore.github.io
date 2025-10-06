@@ -244,7 +244,7 @@
       <main>
         <h1>Tunnel IP</h1>
         <div>
-          <span id="ip" class="ip-box">89.187.177.75</span>
+          <span id="ip" class="ip-box">Loading...</span>
           <button id="copyBtn" class="copy-btn" aria-label="Copy IP">
             Copy
           </button>
@@ -287,17 +287,72 @@
         setTimeout(() => toast.classList.remove("show"), 1800);
       }
 
+      // Fetch the IP from a configurable source.
+      // Priority:
+      // 1) /password/ip-source.txt — if this file contains a URL (starting with http) we'll fetch that URL's content.
+      //    Otherwise we treat the file's first line as the IP directly.
+      // 2) /password/ip.txt — plain text file containing the IP.
+      // If all fetches fail, we fall back to the existing embedded IP string.
+      async function fetchIP() {
+        const fallback = "No IP found. Check back later.";
+        try {
+          // try ip-source.txt first
+          const srcRes = await fetch("/password/ip-source.txt", {
+            cache: "no-store",
+          }).catch(() => null);
+          if (srcRes && srcRes.ok) {
+            const srcText = (await srcRes.text()).trim();
+            if (!srcText) {
+              // empty -> fall through to ip.txt
+            } else if (/^https?:\/\//i.test(srcText)) {
+              // srcText is a URL -> fetch that
+              try {
+                const remote = await fetch(srcText, { cache: "no-store" });
+                if (remote.ok) {
+                  const ip = (await remote.text()).split(/\r?\n/)[0].trim();
+                  if (ip) return ip;
+                }
+              } catch (e) {
+                console.warn("Failed fetching remote IP source", e);
+              }
+            } else {
+              // srcText is direct IP content (maybe multi-line); use first line
+              const ip = srcText.split(/\r?\n/)[0].trim();
+              if (ip) return ip;
+            }
+          }
+
+          // fallback to local ip.txt
+          const ipRes = await fetch("/password/ip.txt", {
+            cache: "no-store",
+          }).catch(() => null);
+          if (ipRes && ipRes.ok) {
+            const ip = (await ipRes.text()).split(/\r?\n/)[0].trim();
+            if (ip) return ip;
+          }
+        } catch (e) {
+          console.warn("fetchIP error", e);
+        }
+        return fallback;
+      }
+
+      // populate the IP on load
+      (async function initIP() {
+        const ip = await fetchIP();
+        ipEl.textContent = ip;
+      })();
+
       copyBtn.addEventListener("click", async () => {
         const ip = ipEl.textContent.trim();
         try {
           await navigator.clipboard.writeText(ip);
-          // On success, show toast then redirect after a short delay
           showToast("IP copied — redirecting...");
-          setTimeout(() => {
-            window.location.href = "https://beefcore.loca.lt";
-          }, 900);
+          setTimeout(
+            () => (window.location.href = "https://beefcore.loca.lt"),
+            900
+          );
         } catch (e) {
-          // If clipboard API fails, try an execCommand fallback but do NOT redirect on failure
+          // fallback to execCommand copy
           const range = document.createRange();
           range.selectNodeContents(ipEl);
           const sel = window.getSelection();
@@ -307,9 +362,10 @@
             document.execCommand("copy");
             sel.removeAllRanges();
             showToast("IP copied — redirecting...");
-            setTimeout(() => {
-              window.location.href = "https://beefcore.loca.lt";
-            }, 900);
+            setTimeout(
+              () => (window.location.href = "https://beefcore.loca.lt"),
+              900
+            );
           } catch (err) {
             sel.removeAllRanges();
             showToast("Copy failed — please copy manually");
