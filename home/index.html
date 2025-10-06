@@ -27,12 +27,7 @@
       name="twitter:image"
       content="https://beefcore.github.io/home/steak.png"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="/assets/styles.css">
     <style>
       /* Use Inter for body and Poppins for headings */
       html,
@@ -103,6 +98,8 @@
         color: inherit;
         text-decoration: none;
       }
+      /* make regular hyperlinks red */
+      a { color: #ff0000; }
       nav a {
         margin: 0 12px;
         text-decoration: none;
@@ -121,7 +118,7 @@
         max-width: 820px;
         margin: 28px auto 8px auto;
         padding: 16px 18px;
-        background: linear-gradient(180deg, #ffe6e6, #fff0f0);
+        background: linear-gradient(0deg, #ffe6e6, #fff0f0);
         border-radius: 12px;
         border: 2px solid #ff0000;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
@@ -147,12 +144,13 @@
         line-height: 1.1;
       }
       .description {
+        /* match redirect pages' sub-message font: Inter and bold */
         font-family: "Inter", Arial, sans-serif;
-        font-weight: 500;
+        font-weight: 700;
         font-size: 1.03rem;
         line-height: 1.6;
         margin-bottom: 22px;
-        color: #333;
+        color: #a60000;
       }
 
       .install-btn,
@@ -312,16 +310,8 @@
     </style>
   </head>
   <body>
-    <header>
-      <div class="logo">
-        <a href="/" style="color: inherit; text-decoration: none">Beefcore Redirect</a>
-      </div>
-      <nav>
-        <a href="/home">Home</a>
-        <a href="/password">Password</a>
-        <a href="https://beefcore.loca.lt">Main Site</a>
-      </nav>
-    </header>
+    <!-- header injected from /assets/header.html -->
+    <div id="header-placeholder"></div>
 
     <main>
       <div id="heroEmoji" class="hero-emoji" role="link" aria-label="Steak link">🥩</div>
@@ -329,7 +319,7 @@
       <p class="description">
         Hi. This is the homepage for the Beefcore Redirect. Click
         <a href="/">here</a> for the main redirect page.
-        <div>Here are some quick links:</div>
+        <div class="description">Here are some quick links:</div>
       </p>
       <a class="install-btn" href="/GBVAM">💾 Gang Beasts Archive</a>
       <a class="faq-btn" href="/uploads">📂 Uploads</a>
@@ -341,6 +331,14 @@
       </div>
     </main>
     <script>
+      // load shared header
+      (async function loadHeader(){
+        try{
+          const res = await fetch('/assets/header.html');
+          const html = await res.text();
+          document.getElementById('header-placeholder').innerHTML = html;
+        }catch(e){ console.warn('Header load failed', e) }
+      })();
       // Redirect when steak emoji is clicked
       document.getElementById('heroEmoji').addEventListener('click', function () {
         window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
