@@ -31,6 +31,9 @@ try {
         $gitExe = (Get-Command git -ErrorAction SilentlyContinue).Path
     if ((Test-Path $gitDir) -and ($gitExe)) {
             try {
+                $timestamp = (Get-Date).ToString('yyyy-MM-dd HH:mm:ss')
+                $msg = "auto: update password/ip.txt - $timestamp"
+
         Write-Log "gitDir: $gitDir"
         Write-Log "gitExe: $gitExe"
                 Push-Location $repoRoot
@@ -46,19 +49,20 @@ try {
                 if ($addErr) { Write-Log "git add err: $addErr" }
                 Remove-Item $tmpAddOut,$tmpAddErr -ErrorAction SilentlyContinue
 
-                $timestamp = (Get-Date).ToString('yyyy-MM-dd HH:mm:ss')
-                $msg = "auto: update password/ip.txt - $timestamp"
 
                 $tmpCommitOut = [System.IO.Path]::GetTempFileName()
                 $tmpCommitErr = [System.IO.Path]::GetTempFileName()
                 Write-Log "Running git commit..."
-                Start-Process -FilePath $gitExe -ArgumentList 'commit','-m',$msg -NoNewWindow -Wait -RedirectStandardOutput $tmpCommitOut -RedirectStandardError $tmpCommitErr
+                    $tmpMsgFile = [System.IO.Path]::GetTempFileName()
+                    Set-Content -Path $tmpMsgFile -Value $msg -Encoding UTF8
+                    # use -a to include modifications to tracked files in case add didn't stage them
+                    Start-Process -FilePath $gitExe -ArgumentList 'commit','-a','-F',$tmpMsgFile -NoNewWindow -Wait -RedirectStandardOutput $tmpCommitOut -RedirectStandardError $tmpCommitErr
                 Write-Log "Finished git commit"
                 $commitOut = Get-Content $tmpCommitOut -Raw -ErrorAction SilentlyContinue
                 $commitErr = Get-Content $tmpCommitErr -Raw -ErrorAction SilentlyContinue
                 if ($commitOut) { Write-Log "git commit: $commitOut" }
                 if ($commitErr) { Write-Log "git commit err: $commitErr" }
-                Remove-Item $tmpCommitOut,$tmpCommitErr -ErrorAction SilentlyContinue
+                    Remove-Item $tmpCommitOut,$tmpCommitErr,$tmpMsgFile -ErrorAction SilentlyContinue
 
                 $tmpPushOut = [System.IO.Path]::GetTempFileName()
                 $tmpPushErr = [System.IO.Path]::GetTempFileName()
