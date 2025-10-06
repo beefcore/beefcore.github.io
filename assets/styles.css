@@ -149,6 +149,13 @@ nav a:hover {
   color: #fff;
 }
 
+/* Apply consistent entrance animation to main content boxes across redirect pages */
+main,
+.message-box,
+.center-wrap > main {
+  animation: fadeInUp 0.55s cubic-bezier(0.2, 0.9, 0.3, 1) 0.08s both;
+}
+
 /* Common utilities used by many pages */
 .main-message,
 .gradient-text {
@@ -192,4 +199,14 @@ nav a:hover {
   width: 100%;
   max-width: 920px;
   margin: 6px auto 6px auto;
+}
+
+/* center-wrap utility: centers a single main/content box vertically and horizontally
+   used by redirect pages that need their .message-box centered beneath the header */
+.center-wrap {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
