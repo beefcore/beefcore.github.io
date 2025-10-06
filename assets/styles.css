@@ -190,6 +190,6 @@ nav a:hover {
 /* small helper used by the header loader to keep layout consistent */
 #site-header {
   width: 100%;
-  max-width: 920px;
+  max-width: 520px;
   margin: 6px auto 6px auto;
 }
