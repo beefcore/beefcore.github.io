@@ -349,8 +349,16 @@
     </style>
   </head>
   <body>
-    <!-- header injected from /assets/header.html -->
-    <div id="header-placeholder"></div>
+    <header>
+      <div class="logo">
+        <a href="/" style="color: inherit; text-decoration: none">Beefcore Redirect</a>
+      </div>
+      <nav>
+        <a href="/home">Home</a>
+        <a href="/password">Password</a>
+        <a href="https://beefcore.loca.lt">Main Site</a>
+      </nav>
+    </header>
 
     <main>
       <div id="heroEmoji" class="hero-emoji" role="link" aria-label="Steak link">🥩</div>
@@ -370,14 +378,6 @@
       </div>
     </main>
     <script>
-      // load shared header
-      (async function loadHeader(){
-        try{
-          const res = await fetch('/assets/header.html');
-          const html = await res.text();
-          document.getElementById('header-placeholder').innerHTML = html;
-        }catch(e){ console.warn('Header load failed', e) }
-      })();
       // Redirect when steak emoji is clicked
       document.getElementById('heroEmoji').addEventListener('click', function () {
         window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';

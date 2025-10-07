@@ -246,8 +246,18 @@
     </style>
   </head>
   <body>
-    <!-- header injected from /assets/header.html -->
-    <div id="header-placeholder"></div>
+    <header>
+      <div class="logo">
+        <a href="/" style="color: inherit; text-decoration: none"
+          >Beefcore Redirect</a
+        >
+      </div>
+      <nav>
+        <a href="/home">Home</a>
+        <a href="/password">Password</a>
+        <a href="https://beefcore.loca.lt">Main Site</a>
+      </nav>
+    </header>
 
     <div class="center-wrap">
       <main>
@@ -270,22 +280,6 @@
     </div>
 
     <script>
-      // load shared header and add slideDown animation class for this page
-      (async function loadHeader() {
-        try {
-          const res = await fetch("/assets/header.html");
-          const html = await res.text();
-          const container = document.getElementById("header-placeholder");
-          container.innerHTML = html;
-          // ensure the header has the slideDown animation used site-wide
-          const hdr = container.querySelector("header");
-          if (hdr)
-            hdr.style.animation =
-              "slideDown 0.38s cubic-bezier(0.2, 0.9, 0.3, 1)";
-        } catch (e) {
-          console.warn("Header load failed", e);
-        }
-      })();
       const copyBtn = document.getElementById("copyBtn");
       const ipEl = document.getElementById("ip");
       const toast = document.getElementById("toast");
